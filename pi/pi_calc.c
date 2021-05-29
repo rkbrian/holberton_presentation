@@ -6,11 +6,14 @@
  */
 int pi_calc(int a)
 {
-	if (n == a)
+	long double n = 0;
+	int i;
+
+	for (i = 0; i < a; i++)
 	{
-		pi_calc();
+		n = n + 4 * (1 / (2 * i - 1)) * ((-1) ** i);
 	}
-	return (float(pi));
+	return (n);
 }
 
 /**
@@ -19,7 +22,7 @@ int pi_calc(int a)
 int main(int argc, char *argv[])
 {
 	int i = atoi(argv[1]);
-	float pi;
+	long double pi;
 
 	if (argc != 2)
 	{
@@ -27,6 +30,6 @@ int main(int argc, char *argv[])
 		return (1);
 	}
 	pi = pi_calc(i)
-	printf("%d\n", pi);
+	printf("The first %d digit/digits of pi is %0.10Lf\n", i, pi);
 	return (0);
 }
