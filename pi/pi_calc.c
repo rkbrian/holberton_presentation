@@ -1,36 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * pi_calc - function to calculate pi
- */
-int pi_calc(int a)
+int main()
 {
-  long double n = 0;
-  int i, j = -1;
+  int a = 300;
+  float n = 0.0;
+  float i;
+  float j = -1.0;
 
-  for (i = 1; i < a; i++)
+  for (i = 0.0; i < a; i++)
     {
       j = j * (-1);
-      n = n + (long double)(4 * (1 / (2 * i - 1)) * j);
+      n = n + (float)(4 * j / (float)(2 * i + 1));
     }
-  return (n);
-}
-
-/**
- * main - print pi with decimal place of i
- */
-int main(int argc, char *argv[])
-{
-  int i = atoi(argv[1]);
-  long double pi;
-  
-  if (argc != 2)
-    {
-      printf("Error\n");
-      return (1);
-    }
-  pi = pi_calc(i);
-  printf("The first %d digit/digits of pi is %0.10Lf\n", i, pi);
+  printf("The pi approximation after sum of %d fractions is %0.8f\n", a, n);
   return (0);
 }
