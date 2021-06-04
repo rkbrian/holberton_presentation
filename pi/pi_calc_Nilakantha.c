@@ -13,13 +13,13 @@ int main(int argc, char *argv[])
       printf("Error: please provide a valid number\n");
       return (1);
     }
-  for (i = 1.0; i < a; i++)
+  for (i = 0.0; i < a; i++)
     {
       j = j * (-1);
-      n = n + (long double)(4 * j / (long double)((2 * i) * (1 + 2 * i) * (2 + 2 * i)));
+      n = n + (long double)(4 * j / (long double)((2 + 2 * i) * (3 + 2 * i) * (4 + 2 * i)));
     }
-  printf("Nilakantha Series\n");
-  printf("My pi approximation after sum of %d fractions is\n%0.15Lf\n", a, n);
-  printf("Is my result anywhere close to the real pi value?\n3.141592653589793....\n");
+  printf("Nilakantha Series: sum of %d fractions\n", a);
+  printf("My approximation\n    %0.15Lf\n", n);
+  printf("True pi value\n    3.141592653589793....\n");
   return (0);
 }

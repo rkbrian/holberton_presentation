@@ -10,6 +10,6 @@ if len(sys.argv) != 2:
 for i in range(a):
     j = j * (-1)
     n = n + (4 * j / (2 * i + 1))
-print("Leibniz series")
-print("My pi approximation after sum of {} fractions is\n{:.15f}".format(a, n))
-print("Is my result anywhere close to the real pi value?\n3.141592653589793....")
+print("Leibniz series: sum of {} fractions".format(a))
+print("My approximation\n    {:.15f}".format(n))
+print("True pi value\n    3.141592653589793....")
