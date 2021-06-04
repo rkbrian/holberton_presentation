@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
       j = j * (-1);
       n = n + (long double)(4 * j / (long double)(2 * i + 1));
     }
-  printf("Nilakantha Series: sum of %d fractions\n", a);
+  printf("Leibniz Series: sum of %d fractions\n", a);
   printf("My approximation\n    %0.15Lf\n", n);
   printf("True pi value\n    3.141592653589793....\n");
   return (0);
