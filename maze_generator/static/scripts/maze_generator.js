@@ -1,4 +1,3 @@
-#!/usr/bin/node
 // Original JavaScript code by Chirp Internet: chirpinternet.eu
 // Modification for size altering for levels and visibilities.
 
