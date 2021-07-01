@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Starts a web application"""
-from os import environ\
+from os import environ
 from flask import Flask, render_template
 
 app = Flask(__name__)
