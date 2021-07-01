@@ -6,7 +6,7 @@ var w = window,
     g = d.getElementsByTagName('body')[0];
 
 // const visibility = ["Clear Map", "Virgin Land", "Heavy Mist"]
-// Dropdown lists
+// Dropdown lists for maze dimensions
 var lvlwidth = {"Easy": 400, "Medium": 500, "Hard": 600, "Expert": 800};
 var lvlheight = {"Easy": 250, "Medium": 300, "Hard": 400, "Expert": 600};
 var select = document.createElement("select");
@@ -21,19 +21,20 @@ for (const val of Object.keys(lvlwidth))
     select.appendChild(option);
 }
 
-    var label = document.createElement("label");
-    label.innerHTML = "Choose your level: "
-    label.htmlFor = "level"; 
+var label = document.createElement("label");
+label.innerHTML = "Choose your level: ";
+label.htmlFor = "level"; 
 
-    document.getElementById("levelcontainer").appendChild(label).appendChild(select);
+// Maze dimensions
+var eleme = document.getElementById("levelcontainer").appendChild(label).appendChild(select);
+var strUser = eleme.value;
+var width = lvlwidth[strUser].onchange; // needs change!!!!!!
+var height = lvlheight[strUser].onchange; // needs change!!!!!!
+
 
 var x = w.innerWidth || e.clientWidth || g.clientWidth,
         y = w.innerHeight || e.clientHeight || g.clientHeight;
 
-// Maze dimensions
-var width = lvlwidth[select.option.value], // needs change!!!!!!
-    height = lvlheight[select.option.value]; // needs change!!!!!!
-    
 
 var currentPosition; 
 
