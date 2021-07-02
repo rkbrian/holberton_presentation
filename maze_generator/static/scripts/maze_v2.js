@@ -1,57 +1,60 @@
 // Modified based on: https://codepen.io/k-hung/pen/eYmQdZq
 // Loads up the game
-var w = window,
-    d = document,
-    e = d.documentElement,
-    g = d.getElementsByTagName('body')[0];
+document.addEventListener("DOMContentLoaded", function() {
+    var w = window,
+        d = document,
+        e = d.documentElement,
+        g = d.getElementsByTagName('body')[0];
 
-// const visibility = ["Clear Map", "Virgin Land", "Heavy Mist"]
-// Dropdown lists for maze dimensions
-var lvlwidth = {"Easy": 400, "Medium": 500, "Hard": 600, "Expert": 800};
-var lvlheight = {"Easy": 250, "Medium": 300, "Hard": 400, "Expert": 600};
-var select = document.createElement("select");
-select.name = "level";
-select.id = "level";
+    // const visibility = ["Clear Map", "Virgin Land", "Heavy Mist"]
+    // Dropdown lists for maze dimensions
+    var lvlwidth = { "Easy": 400, "Medium": 500, "Hard": 600, "Expert": 800 };
+    var lvlheight = { "Easy": 250, "Medium": 300, "Hard": 400, "Expert": 600 };
+    var select = document.createElement("select");
+    select.name = "level";
+    select.id = "level";
 
-for (const val of Object.keys(lvlwidth))
-{
-    var option = document.createElement("option");
-    option.value = val;
-    option.text = val.charAt(0).toUpperCase() + val.slice(1);
-    select.appendChild(option);
-}
+    for (const val of Object.keys(lvlwidth)) {
+        var option = document.createElement("option");
+        option.value = val;
+        option.text = val.charAt(0).toUpperCase() + val.slice(1);
+        select.appendChild(option);
+    }
 
-var label = document.createElement("label");
-label.innerHTML = "Choose your level: ";
-label.htmlFor = "level"; 
+    var label = document.createElement("label");
+    label.innerHTML = "Choose your level: ";
+    label.htmlFor = "level";
 
-// Maze dimensions
-var eleme = document.getElementById("levelcontainer").appendChild(label).appendChild(select);
-var strUser = eleme.value;
-var width = lvlwidth[strUser].onchange; // needs change!!!!!!
-var height = lvlheight[strUser].onchange; // needs change!!!!!!
+    // Maze dimensions
+    //select.addEventListener("change", function(ele) {
+    //    console.log(lvlwidth[ele.target.value]);
+    //    var width;
+    //    var height;
+    //})
+    var eleme = document.getElementById("levelcontainer").appendChild(label).appendChild(select);
+    var strUser = eleme.value;
 
-
-var x = w.innerWidth || e.clientWidth || g.clientWidth,
+    var x = w.innerWidth || e.clientWidth || g.clientWidth,
         y = w.innerHeight || e.clientHeight || g.clientHeight;
+    var width = lvlwidth[strUser]; // needs change!!!!!!
+    var height = lvlheight[strUser]; // needs change!!!!!!
 
+    var currentPosition;
 
-var currentPosition; 
+    var N = 1 << 0,
+        S = 1 << 1,
+        W = 1 << 2,
+        E = 1 << 3;
 
-var N = 1 << 0, 
-    S = 1 << 1,
-    W = 1 << 2,
-    E = 1 << 3;
- 
-var body = document.querySelectorAll('body');
+    var body = document.querySelectorAll('body');
 
 
     var layout = [],
         fronteirTest = [];
-// Determines the size of the blocks 
-    
-    var cellSize = 16,
-        cellSpacing = 8,
+    // Determines the size of the blocks 
+
+    var cellSize = 24,
+        cellSpacing = 12,
         cellWidth = Math.floor((width - cellSpacing) / (cellSize + cellSpacing)),
         cellHeight = Math.floor((height - cellSpacing) / (cellSize + cellSpacing)),
         cells = new Array(cellWidth * cellHeight), // each cell’s edge bits
@@ -78,12 +81,10 @@ var body = document.querySelectorAll('body');
     );
 
 
-
     var canvas2 = document.createElement('canvas');
 
     canvas2.setAttribute("id", "canvas2");
     canvas2.setAttribute("width", width);
-    canvas2.setAttribute("height", height);
 
     body[0].appendChild(canvas2);
 
@@ -94,8 +95,8 @@ var body = document.querySelectorAll('body');
         Math.round((height - cellHeight * cellSize - (cellHeight + 1) * cellSpacing) / 2)
     );
 
-//color of the maze
-    context.fillStyle = "#00ffff";
+    //color of the maze
+    context.fillStyle = "#00bfff";
 
     // Add a random cell and two initial edges.
     var start = (cellHeight - 1) * cellWidth;
@@ -120,11 +121,11 @@ var body = document.querySelectorAll('body');
     function exploreFrontier() {
 
         if ((edge = popRandom(frontier)) == null) {
-            layout.push({x: 0, y: maxY, d1: 0, d0: 0})
+            layout.push({ x: 0, y: maxY, d1: 0, d0: 0 })
             for (var i = layout.length - 1; i >= 0; i--) {
-              if(layout[i].x === 0 && layout[i].y === maxY) {
-                drawPlayer(layout[i]);
-              }
+                if (layout[i].x === 0 && layout[i].y === maxY) {
+                    drawPlayer(layout[i]);
+                }
             };
             return true;
         }
@@ -143,8 +144,8 @@ var body = document.querySelectorAll('body');
             east,
             south,
             west;
-// makes the maze color
-        context.fillStyle = open ? "#00ffff": "transparent";
+        // makes the maze color
+        context.fillStyle = open ? "00bfff" : "transparent";
         if (d0 === N) fillSouth(i1), x1 = x0, y1 = y0 - 1, d1 = S, south = true;
         else if (d0 === S) fillSouth(i0), x1 = x0, y1 = y0 + 1, d1 = N, south = true;
         else if (d0 === W) fillEast(i1), x1 = x0 - 1, y1 = y0, d1 = E, east = true;
@@ -210,7 +211,7 @@ var body = document.querySelectorAll('body');
         t = array[i], array[i] = array[n - 1], array[n - 1] = t;
         return array.pop();
     }
-//Changing the color and size of the balls
+    //Changing the color and size of the balls
     function drawPlayer(position) {
         game.clearRect(0, 0, width, height);
         currentPosition = position;
@@ -228,150 +229,151 @@ var body = document.querySelectorAll('body');
         game.fill();
     }
 
-    window.addEventListener("keydown", function(e) {
+    window.addEventListener("keydown", function (e) {
 
-      var value = e.which;
+        var value = e.which;
 
-      if(value === 37) moveWest(), e.preventDefault();
-      if(value === 38) moveNorth(), e.preventDefault();
-      if(value === 39) moveEast(), e.preventDefault();
-      if(value === 40) moveSouth(), e.preventDefault();
-     
-      return false;
-        
+        if (value === 37) moveWest(), e.preventDefault();
+        if (value === 38) moveNorth(), e.preventDefault();
+        if (value === 39) moveEast(), e.preventDefault();
+        if (value === 40) moveSouth(), e.preventDefault();
+
+        return false;
+
     });
 
     function moveWest() {
-      var newY = currentPosition.y;
-      var newX = currentPosition.x - 1;
-      var newPosition;
+        var newY = currentPosition.y;
+        var newX = currentPosition.x - 1;
+        var newPosition;
 
-      if (newX < 0) return false;
+        if (newX < 0) return false;
 
-      for (var i = layout.length - 1; i >= 0; i--) {
-        if(layout[i].x === newX && layout[i].y === newY) {
-          newPosition = layout[i];
+        for (var i = layout.length - 1; i >= 0; i--) {
+            if (layout[i].x === newX && layout[i].y === newY) {
+                newPosition = layout[i];
+            }
+        };
+
+        if (newPosition.x === maxX && newPosition.y === 0) {
+            gameComplete();
         }
-      };
-
-      if(newPosition.x === maxX && newPosition.y === 0) {
-        gameComplete();
-      }
 
 
-      if (( currentPosition.d1 === W) || (newPosition.d1 === E)) {
-        drawPlayer(newPosition); 
-      };
+        if ((currentPosition.d1 === W) || (newPosition.d1 === E)) {
+            drawPlayer(newPosition);
+        };
     }
 
     function moveEast() {
-      var newY = currentPosition.y;
-      var newX = currentPosition.x + 1;
-      var newPosition;
+        var newY = currentPosition.y;
+        var newX = currentPosition.x + 1;
+        var newPosition;
 
-      if (newX > maxX) return false;
+        if (newX > maxX) return false;
 
-      for (var i = layout.length - 1; i >= 0; i--) {
-        if(layout[i].x === newX && layout[i].y === newY) {
-          newPosition = layout[i];
+        for (var i = layout.length - 1; i >= 0; i--) {
+            if (layout[i].x === newX && layout[i].y === newY) {
+                newPosition = layout[i];
+            }
+        };
+
+        if (newPosition.x === maxX && newPosition.y === 0) {
+            gameComplete();
         }
-      };
 
-      if(newPosition.x === maxX && newPosition.y === 0) {
-        gameComplete();
-      }
+        if ((currentPosition.d1 === E) || (newPosition.d1 === W)) {
+            drawPlayer(newPosition);
+        };
 
-      if (( currentPosition.d1 === E) || (newPosition.d1 === W)) {
-        drawPlayer(newPosition); 
-      };
 
-      
     }
 
     function moveNorth() {
-      var newY = currentPosition.y - 1;
-      var newX = currentPosition.x;
-      var newPosition;
+        var newY = currentPosition.y - 1;
+        var newX = currentPosition.x;
+        var newPosition;
 
 
-      if (newY < 0) return false;
+        if (newY < 0) return false;
 
-      for (var i = layout.length - 1; i >= 0; i--) {
-        if(layout[i].x === newX && layout[i].y === newY) {
-          newPosition = layout[i];
+        for (var i = layout.length - 1; i >= 0; i--) {
+            if (layout[i].x === newX && layout[i].y === newY) {
+                newPosition = layout[i];
+            }
+        };
+
+        if (newPosition.x === maxX && newPosition.y === 0) {
+            gameComplete();
         }
-      };
 
-      if(newPosition.x === maxX && newPosition.y === 0) {
-        gameComplete();
-      }
-
-      if (( currentPosition.d1 === N) || (newPosition.d1 === S)) {
-        drawPlayer(newPosition); 
-      };
+        if ((currentPosition.d1 === N) || (newPosition.d1 === S)) {
+            drawPlayer(newPosition);
+        };
 
     }
 
     function moveSouth() {
-      var newY = currentPosition.y + 1;
-      var newX = currentPosition.x;
-      var newPosition;
+        var newY = currentPosition.y + 1;
+        var newX = currentPosition.x;
+        var newPosition;
 
-      if (newY > maxY) return false;
+        if (newY > maxY) return false;
 
-      for (var i = layout.length - 1; i >= 0; i--) {
-        if(layout[i].x === newX && layout[i].y === newY) {
-          newPosition = layout[i];
+        for (var i = layout.length - 1; i >= 0; i--) {
+            if (layout[i].x === newX && layout[i].y === newY) {
+                newPosition = layout[i];
+            }
+        };
+
+        if (newPosition.x === maxX && newPosition.y === 0) {
+            gameComplete();
         }
-      };
 
-      if(newPosition.x === maxX && newPosition.y === 0) {
-        gameComplete();
-      }
+        if ((currentPosition.d1 === S) || (newPosition.d1 === N)) {
+            drawPlayer(newPosition);
+        };
 
-      if (( currentPosition.d1 === S) || (newPosition.d1 === N)) {
-        drawPlayer(newPosition); 
-      };
-      
     }
-//Changes the alert when you win the game
+    //Changes the alert when you win the game
     function gameComplete() {
-        alert('Wow! You won! Thats pretty neat!'); 
-      }
+        alert('Wow! You won! Thats pretty neat!');
+    }
 
 
-    (function() {
+    (function () {
         var lastTime = 0;
         var vendors = ['ms', 'moz', 'webkit', 'o'];
-        for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-            window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
-                                       || window[vendors[x]+'CancelRequestAnimationFrame'];
+        for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+            window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+            window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
+                || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
-     
+
         if (!window.requestAnimationFrame)
-            window.requestAnimationFrame = function(callback, element) {
+            window.requestAnimationFrame = function (callback, element) {
                 var currTime = new Date().getTime();
                 var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
-                  timeToCall);
+                var id = window.setTimeout(function () { callback(currTime + timeToCall); },
+                    timeToCall);
                 lastTime = currTime + timeToCall;
                 return id;
             };
-     
+
         if (!window.cancelAnimationFrame)
-            window.cancelAnimationFrame = function(id) {
+            window.cancelAnimationFrame = function (id) {
                 clearTimeout(id);
             };
     }());
 
     function animate() {
-      
-        requestAnimationFrame(function() {
-            if(!run()) {
+
+        requestAnimationFrame(function () {
+            if (!run()) {
                 animate();
             }
         });
     }
 
     animate();
+});
